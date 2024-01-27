@@ -1,0 +1,31 @@
+@font-face {
+  font-family: "Autour One";
+  src: url("../Autour_One/AutourOne-Regular.ttf") format("truetype");
+}
+
+header {
+  background-color: #BCD5CF;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  font-family: "Autour One";
+}
+
+.title {
+  display: flex;
+}
+
+#emerald {
+  width: 50px;
+  height: 50px;
+}
+
+#vibes {
+  padding-left: 1rem;
+}
+
+.right-side-utils {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}

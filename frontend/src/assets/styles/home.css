@@ -1,0 +1,20 @@
+.homeBox {
+  margin: 1% 25%;
+}
+
+.homeBox .rootStyle {
+  background-color: #BCD5CF;
+}
+
+.accordDeets {
+  display: flex;
+}
+
+.Button {
+  display: flex;
+  justify-content: center;
+}
+
+p {
+  margin-left: 1rem;
+}
