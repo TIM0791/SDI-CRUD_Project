@@ -11,7 +11,7 @@ app.listen(port, () => {
 //display something at root route to show backend is working
 app.get("/", (req, res) => {
   res.send("Hello, and welcome to my shop!");
-})
+});
 
 //fetch crystals sorted by type
 app.get("/crystal/:type", (req, res) => {
@@ -80,7 +80,8 @@ app.get("/user", (req, res) => {
 
   knex.select()
   .from('User')
-  .where(Username: req.body.Username)
+  .where({ Username })
+  .first()
   .then((users) => {
     if (users.length != 0) {
       const user = users[0];

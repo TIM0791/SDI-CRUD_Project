@@ -18,6 +18,7 @@ exports.up = function(knex) {
     table.string('Name');
     table.string('Description');
     table.mediumint('Quantity');
+    table.string('Image');
   });
 }
 
