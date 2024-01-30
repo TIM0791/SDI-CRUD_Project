@@ -14,7 +14,7 @@ exports.up = function(knex) {
   .createTable('Item', table => {
     table.increments('id');
     table.bigint('UserID').unsigned();
-    table.foreign('UserID').references('User.id');
+    table.foreign('UserID').references('User.id').onDelete('CASCADE');
     table.string('Name');
     table.string('Description');
     table.mediumint('Quantity');
@@ -26,5 +26,7 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-  return knex.schema.dropTableIfExists('User')
+  return knex.schema
+    .dropTableIfExists('Item')
+    .dropTableIfExists('User')
 };
