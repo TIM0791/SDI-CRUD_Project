@@ -3,7 +3,6 @@ const app = express();
 const port = 8080;
 const bcrypt = require("bcrypt");
 const knex = require('knex')(require('../knexfile.js')['development']);
-//const hash = bcrypt.hash("", 13);
 
 app.listen(port, () => {
   console.log(`Application listening on Port ${port}!`)
@@ -13,10 +12,27 @@ app.listen(port, () => {
 app.get("/", (req, res) => {
   res.send("Hello, and welcome to my shop!");
 })
-//implement after fixing logging in
-// app.get("/crystal/:type", (req, res) => {
 
-// })
+//fetch crystals sorted by type
+app.get("/crystal/:type", (req, res) => {
+  const { type } = req.params;
+
+  knex.select()
+    .from('Item')
+    .where('Description', '=', type)
+    .then((crystals) => {
+      res.status(200).json(crystals);
+    })
+});
+
+//fetch all crystals
+app.get("/crystal", (req, res) => {
+  knex.select().from('Item')
+    .then((crystals) => {
+      res.status(200).json(crystals);
+    })
+});
+
 
 //new user - create
 app.post("/user", (req, res) => {
@@ -30,7 +46,7 @@ app.post("/user", (req, res) => {
     res.status(500).json({ error: "There was an issue adding your information. Please try again."})
     console.log(error);
   })
-})
+});
 
 //user logs in
 app.get("/user", (req, res) => {
@@ -39,5 +55,20 @@ app.get("/user", (req, res) => {
   knex.select()
   .from('User')
   .where(Username: req.body.Username)
-  .then()
-})
+  .then((users) => {
+    if (users.length != 0) {
+      const user = users[0];
+
+      bcrypt.compare(Password, user.Password, (result) => {
+        if (result) {
+          res.cookie('Admin', true, { httpOnly: true, sameSite: true });
+          res.status(200).json({ message: "Authentication successful" });
+        } else {
+          res.status(401).json({ error: "Authentication failed" });
+        };
+      });
+    } else {
+      res.status(404).json({ message: "User not found" });
+    };
+  })
+});
