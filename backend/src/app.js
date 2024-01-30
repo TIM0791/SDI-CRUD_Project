@@ -21,6 +21,7 @@ app.get("/crystal/:type", (req, res) => {
     .from('Item')
     .where('Description', '=', type)
     .then((crystals) => {
+      res.cookie('Guest', true, {httpOnly: true, sameSite: true})
       res.status(200).json(crystals);
     })
 });
@@ -33,8 +34,33 @@ app.get("/crystal", (req, res) => {
     })
 });
 
+//make a correction to a crystal in inventory
+app.put("/crystal/:id", (req, res) => {
+  const { id } = req.params;
+  const { Name, Description, Quantity } = req.body;
 
-//new user - create
+  knex('Item')
+    .where('id', id)
+    .update({ Name, Description, Quantity })
+    .then(() => {
+      res.status(200).json({ message: "Crystal information updated successfully" });
+    })
+});
+
+//delete an item from inventory
+app.delete("/crystal/:id", (req, res) => {
+  const { id } = req.params;
+
+  knex('Item')
+    .where('id', id)
+    .del()
+    .then(() => {
+      res.status(200).json({ message: "Crystal deleted successfully" });
+    })
+});
+
+
+//create new admin
 app.post("/user", (req, res) => {
   const passHash = bcrypt.hashSync(req.body.Password, 13);
   const { First_name, Last_name, Username } = req.body;
