@@ -4,7 +4,7 @@
  */
 exports.up = function(knex) {
   return knex.schema
-    .createTable('User', table => {
+    .createTable('Admin', table => {
       table.increments('id');
       table.string('First_Name', 26);
       table.string('Last_Name', 26);
@@ -13,8 +13,8 @@ exports.up = function(knex) {
   })
   .createTable('Item', table => {
     table.increments('id');
-    table.bigint('UserID').unsigned();
-    table.foreign('UserID').references('User.id').onDelete('CASCADE');
+    table.bigint('AdminID').unsigned();
+    table.foreign('AdminID').references('Admin.id').onDelete('CASCADE');
     table.string('Name');
     table.string('Description');
     table.mediumint('Quantity');
@@ -29,5 +29,5 @@ exports.up = function(knex) {
 exports.down = function(knex) {
   return knex.schema
     .dropTableIfExists('Item')
-    .dropTableIfExists('User')
+    .dropTableIfExists('Admin')
 };
