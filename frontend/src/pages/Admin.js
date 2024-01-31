@@ -1,13 +1,13 @@
 import { Grid, Paper } from '@mui/material';
 import { useState, useEffect } from 'react';
 
-const Healing = () => {
+const Admin = () => {
   const [crystals, setCrystals] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8080/crystal/Healing');
+        const response = await fetch('http://localhost:8080/crystal');
         if (!response.ok) {
           throw new Error('Failed to fetch crystals');
         }
@@ -45,4 +45,4 @@ const Healing = () => {
   );
 };
 
-export default Healing;
+export default Admin;

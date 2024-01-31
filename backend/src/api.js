@@ -1,10 +1,13 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const port = 8080;
 const bcrypt = require("bcrypt");
 const knex = require('knex')(require('../knexfile.js')['development']);
 
 app.use(express.json());
+app.use(cors());
 
 app.listen(port, () => {
   console.log(`Application listening on Port ${port}!`)
@@ -18,7 +21,6 @@ app.get("/", (req, res) => {
 //fetch crystals sorted by type of crystal per description
 app.get("/crystal/:type", (req, res) => {
   const { type } = req.params;
-  console.log( `Type: ${type}`)
 
   knex.select()
     .from('Item')
@@ -28,6 +30,22 @@ app.get("/crystal/:type", (req, res) => {
       res.status(200).json(crystals);
     })
 });
+
+//fetch crystals added by one person
+// app.get("/crystal/:AdminID", (req, res) => {
+//   const { AdminID } = req.params;
+//   console.log(AdminID);
+//   knex.select()
+//     .from('Item')
+//     .where({ AdminID })
+//     .then((crystals) => {
+//       res.status(200).json(crystals);
+//     })
+//     .catch((error) => {
+//       console.error(error);
+//       res.status(500).json({ error: "Internal Server Error" });
+//     });
+// });
 
 //fetch all crystals
 app.get("/crystal", (req, res) => {
