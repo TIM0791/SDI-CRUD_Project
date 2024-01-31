@@ -7,7 +7,10 @@ const bcrypt = require("bcrypt");
 const knex = require('knex')(require('../knexfile.js')['development']);
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true,
+}));
 
 app.listen(port, () => {
   console.log(`Application listening on Port ${port}!`)

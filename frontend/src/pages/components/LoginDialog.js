@@ -7,7 +7,7 @@ const LoginDialog = ({ open, setOpen }) => {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('/user', {
+      const response = await fetch('http://localhost:8080/user', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -26,6 +26,7 @@ const LoginDialog = ({ open, setOpen }) => {
       } else {
         // Login failed, handle error (e.g., show error message)
         console.log('Login failed!');
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
     } catch (error) {
       console.error('Error during login:', error);
@@ -47,7 +48,7 @@ const LoginDialog = ({ open, setOpen }) => {
           variant="filled"
           size="small"
           margin="normal"
-          //value={email}
+          value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <TextField
@@ -60,8 +61,8 @@ const LoginDialog = ({ open, setOpen }) => {
           variant="filled"
           size="small"
           margin="normal"
-          //value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+          onChange={(p) => setPassword(p.target.value)}
         />
       </DialogContent>
       <DialogActions>

@@ -2,6 +2,7 @@ import "../../assets/styles/header.css";
 import { IconButton, Badge } from "@mui/material/";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FingerprintIcon from '@mui/icons-material/Fingerprint';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import LoginDialog from "./LoginDialog";
@@ -23,6 +24,9 @@ const Header = () => {
         <p id="vibes">Crystalline Vibes</p>
       </div>
       <div className="rightSideUtils" >
+        <IconButton onClick={() => navigate("/Admin", {replace: true})}>
+          <SettingsIcon />
+        </IconButton>
         <IconButton color="primary" onClick={addOneToArray}>
           <Badge badgeContent={cartArray.length} color="tertiary">
             <ShoppingCartIcon />

@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Healing from "./pages/Healing";
 import Divination from "./pages/Divination";
 import Manifestation from "./pages/Manifestation";
+import Admin from "./pages/Admin";
 import "./assets/styles/app.css";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
             <Route path="/Healing" element={<Healing />}/>
             <Route path="/Divination" element={<Divination />}/>
             <Route path="/Manifest" element={<Manifestation />}/>
+            <Route path="/Admin" element={<Admin />}/>
           </Routes>
         </div>
       </BrowserRouter>
