@@ -117,7 +117,7 @@ app.post("/user", (req, res) => {
       if (user) {
         bcrypt.compare(Password, user.Password, (err, result) => {
           if (result) {
-            res.cookie('Admin', user.id, { httpOnly: true, sameSite: true });
+            res.cookie('Admin', user.id, { sameSite: true });
             res.status(200).json({ message: "Authentication successful" });
           } else {
             res.status(401).json({ error: "Authentication failed" });
