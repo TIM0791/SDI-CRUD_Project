@@ -39,7 +39,8 @@ const Admin = () => {
         <Grid container spacing={2}>
           <Grid item xs={4}>
             <Paper sx={{ backgroundColor: '#BCD5CF' }}>
-              <AddBoxOutlinedIcon />
+              <div><strong>Add Item</strong></div>
+              <div><AddBoxOutlinedIcon /></div>
             </Paper>
           </Grid>
           {crystals.map((crystal) => (
