@@ -1,4 +1,5 @@
 import { Grid, Paper } from '@mui/material';
+import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import React, { useState, useEffect } from 'react';
 import cookie from 'cookie';
 
@@ -35,23 +36,28 @@ const Admin = () => {
   return (
     <>
       {hasAccess ? (
-        crystals.map((crystal) => (
-          <Grid container spacing={2} key={crystal.id}>
-            <Grid item xs={4}>
-              <Paper sx={{ backgroundColor: '#BCD5CF' }}>
-                <div>
-                  <strong>Name:</strong> {crystal.Name}
-                </div>
-                <div>
-                  <img src={crystal.Image} alt={crystal.Name} />
-                </div>
-                <div>
-                  <strong>Quantity:</strong> {crystal.Quantity}
-                </div>
-              </Paper>
-            </Grid>
+        <Grid container spacing={2}>
+          <Grid item xs={4}>
+            <Paper sx={{ backgroundColor: '#BCD5CF' }}>
+              <AddBoxOutlinedIcon />
+            </Paper>
           </Grid>
-        ))
+          {crystals.map((crystal) => (
+              <Grid item xs={4} key={crystal.id}>
+                <Paper sx={{ backgroundColor: '#BCD5CF' }}>
+                  <div>
+                    <strong>Name:</strong> {crystal.Name}
+                  </div>
+                  <div>
+                    <img src={crystal.Image} alt={crystal.Name} />
+                  </div>
+                  <div>
+                    <strong>Quantity:</strong> {crystal.Quantity}
+                  </div>
+                </Paper>
+              </Grid>
+          ))}
+        </Grid>
       ) : (
         <div style={{color:'white'}}>You do not have access. Please return home and login.</div>
       )}

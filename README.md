@@ -1,9 +1,12 @@
 # SDI-CRUD
 This is a full stack CRUD web application utilizing Javascript/React/Express/Knex/PostgresSQL
 
-start off my navigating into frontend and running 'npm i'
+start off docker run --rm --name pg-docker -e POSTGRES_PASSWORD=docker -d -p 5432:5432 \
+-v $HOME/docker/volumes/postgres:/var/lib/postgresql/data postgres
 
-navigate to the backend and run 'npm start'
+then navigate into frontend and run 'npm i', followed by navigating into the backend and running 'npm i'
+
+while in the backend, run 'npm start'
 navigate to the frontend and run 'npm start'
 
 Admin accounts are

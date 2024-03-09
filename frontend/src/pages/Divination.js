@@ -24,9 +24,9 @@ const Divination = () => {
 
   return (
     <>
+    <Grid container spacing={2}>
       {crystals.map((crystal) => (
-  <Grid container spacing={2} key={crystal.id}>
-    <Grid item xs={4}>
+    <Grid item xs={4} key={crystal.id}>
       <Paper sx={{ backgroundColor: '#BCD5CF' }}>
         <div>
           <strong>Name:</strong> {crystal.Name}
@@ -39,8 +39,8 @@ const Divination = () => {
         </div>
       </Paper>
     </Grid>
-  </Grid>
 ))}
+  </Grid>
     </>
   );
 };
