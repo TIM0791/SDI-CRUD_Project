@@ -1,12 +1,14 @@
-import { Grid, Paper } from '@mui/material';
+import { Grid, Paper, IconButton } from '@mui/material';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import React, { useState, useEffect } from 'react';
 import cookie from 'cookie';
+import CrstDialog from "./components/CrstDialog.js";
 
 const Admin = () => {
   const [crystals, setCrystals] = useState([]);
   const [hasAccess, setHasAccess] = useState(false);
   const cookies = cookie.parse(document.cookie);
+  const [open, setOpen]=useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,7 +42,12 @@ const Admin = () => {
           <Grid item xs={4}>
             <Paper sx={{ backgroundColor: '#BCD5CF' }}>
               <div><strong>Add Item</strong></div>
-              <div><AddBoxOutlinedIcon /></div>
+              <div>
+                <IconButton aria-label="fingerprint" color="primary" onClick={() => setOpen(true)}>
+                  <AddBoxOutlinedIcon />
+                </IconButton>
+                <CrstDialog open={open} setOpen={setOpen} />
+              </div>
             </Paper>
           </Grid>
           {crystals.map((crystal) => (
