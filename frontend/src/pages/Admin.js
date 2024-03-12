@@ -1,5 +1,7 @@
 import { Grid, Paper, IconButton } from '@mui/material';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
+import EditIcon from '@mui/icons-material/Edit';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import React, { useState, useEffect } from 'react';
 import cookie from 'cookie';
 import CrstDialog from "./components/CrstDialog.js";
@@ -62,6 +64,8 @@ const Admin = () => {
                   <div>
                     <strong>Quantity:</strong> {crystal.Quantity}
                   </div>
+                  <EditIcon />
+                  <RemoveCircleIcon />
                 </Paper>
               </Grid>
           ))}

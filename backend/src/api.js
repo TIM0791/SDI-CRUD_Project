@@ -61,11 +61,11 @@ app.get("/crystal", (req, res) => {
 //make a correction to a crystal in inventory
 app.put("/crystal/:id", (req, res) => {
   const { id } = req.params;
-  const { UserID, Name, Description, Quantity, Image } = req.body;
+  const { AdminID, Name, Description, Quantity, Image } = req.body;
 
   knex('Item')
     .where({ id })
-    .update({ UserID, Name, Description, Quantity, Image})
+    .update({ AdminID, Name, Description, Quantity, Image})
     .then(() => {
       res.status(200).json({ message: "Crystal information updated successfully" });
     })
@@ -84,10 +84,10 @@ app.delete("/crystal/:id", (req, res) => {
 });
 
 app.post("/crystal", (req, res) => {
-  const { UserID, Name, Description, Quantity, Image } = req.body;
+  const { AdminID, Name, Description, Quantity, Image } = req.body;
 
   knex('Item')
-  .insert({ UserID, Name, Description, Quantity, Image })
+  .insert({ AdminID, Name, Description, Quantity, Image })
   .then(res.status(201).json({ message: "Item logged into Inventory, successfully!"}))
 });
 

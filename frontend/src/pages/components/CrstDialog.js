@@ -18,7 +18,7 @@ const CrstDialog = ({ open, setOpen }) => {
         },
         credentials: 'include',
         body: JSON.stringify({
-          UserID: cookies.Admin,
+          AdminID: cookies.Admin,
           Name: name,
           Description: description,
           Quantity: quantity,
@@ -83,9 +83,9 @@ const CrstDialog = ({ open, setOpen }) => {
         fullWidth
         id="Image"
         label="Image"
-        variant="Image"
-        size="Image"
-        margin="Image"
+        variant="filled"
+        size="small"
+        margin="normal"
         value={image}
         onChange={(i) => setImage(i.target.value)}
         />
