@@ -83,6 +83,7 @@ app.delete("/crystal/:id", (req, res) => {
     })
 });
 
+//add new inventory item
 app.post("/crystal", (req, res) => {
   const { AdminID, Name, Description, Quantity, Image } = req.body;
 
@@ -91,21 +92,8 @@ app.post("/crystal", (req, res) => {
   .then(res.status(201).json({ message: "Item logged into Inventory, successfully!"}))
 });
 
-//create new admin
-// app.post("/user", (req, res) => {
-//   const passHash = bcrypt.hashSync(req.body.Password, 13);
-//   const { First_name, Last_name, Username } = req.body;
 
-//   knex('User')
-//   .insert({ First_name, Last_name, Username, passHash})
-//   .then(res.status(201).json({ message: "Your information has been saved!"}))
-//   .catch(error => {
-//     res.status(500).json({ error: "There was an issue adding your information. Please try again."})
-//     console.log(error);
-//   })
-// });
-
-// admin logs in
+// admin logs in and gets cookie
 app.post("/user", (req, res) => {
   const { Username, Password } = req.body;
 
@@ -126,5 +114,24 @@ app.post("/user", (req, res) => {
       } else {
         res.status(404).json({ message: "User not found" });
       };
+    })
+});
+
+//admin create new user
+app.post("/register", (req, res) => {
+  const { First_Name, Last_Name, Username, Password } = req.body;
+
+  const adminHash = bcrypt.hashSync(Password, 13);
+
+  knex("Admin")
+  .insert({ First_Name, Last_Name, Username, Password: adminHash })
+  .then(() => {res.status(201).json({ message: "Teammate successfully added!"})})
+});
+
+//fetch all admins
+app.get("/user", (req, res) => {
+  knex.select().from('Admin')
+    .then((ppl) => {
+      res.status(200).json(ppl);
     })
 });

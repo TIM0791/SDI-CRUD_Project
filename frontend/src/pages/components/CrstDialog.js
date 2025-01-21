@@ -1,13 +1,43 @@
-import { DialogTitle, Dialog, DialogContent, DialogContentText, DialogActions, Button, TextField } from '@mui/material';
-import { useState } from 'react';
+import { DialogTitle, Dialog, DialogContent, DialogContentText, DialogActions, Button, TextField, Select, SelectChangeEvent, MenuItem } from '@mui/material';
+import { useState, useEffect } from 'react';
 import cookie from 'cookie';
 
-const CrstDialog = ({ open, setOpen }) => {
-  const [name, setName]=useState("");
-  const [description, setDescription]=useState("");
-  const [quantity, setQuantity]=useState("");
-  const [image, setImage]=useState("");
+const CrstDialog = ({ open, setOpen, selectedCrystal, onUpdateCrystal }) => {
+  const [name, setName]=useState(selectedCrystal?.Name || "");
+  const [description, setDescription]=useState(selectedCrystal?.Description || "");
+  const [quantity, setQuantity]=useState(selectedCrystal?.Quantity || "");
+  const [image, setImage]=useState(selectedCrystal?.Image || "");
   const cookies = cookie.parse(document.cookie);
+
+  useEffect(() => {
+    if (selectedCrystal) {
+      setName(selectedCrystal.Name);
+      setImage(selectedCrystal.Image);
+      setQuantity(selectedCrystal.Quantity);
+    }
+  }, [selectedCrystal]);
+
+  const handleSave = async () => {
+    try {
+      const response = await fetch(`http://localhost:8080/crystal/${selectedCrystal.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ Name: name, Image: image, Quantity: quantity }),
+      });
+
+      if (response.ok) {
+        const updatedCrystal = await response.json();
+
+        // Update parent state dynamically and close
+        onUpdateCrystal(updatedCrystal);
+        setOpen(false);
+      } else {
+        console.error("Error updating crystal");
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
 
   const newCrst = async () => {
     try {
@@ -27,10 +57,8 @@ const CrstDialog = ({ open, setOpen }) => {
       });
 
       if (response.ok) {
-        // add successful, handle further actions (e.g., redirect, set state, etc.)
-        setOpen(false); // Close the dialog
+        setOpen(false);
       } else {
-        // add failed, handle error (e.g., show error message)
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
     } catch (error) {
@@ -38,9 +66,13 @@ const CrstDialog = ({ open, setOpen }) => {
     }
   };
 
+  const handleChange = (event: SelectChangeEvent) => {
+    setDescription(event.target.value);
+  };
+
   return (
-    <Dialog PaperProps={{style: { backgroundColor: "#E3DAC9" }}} open={open}>
-      <DialogTitle>Add Crystal</DialogTitle>
+    <Dialog PaperProps={{style: { backgroundColor: "#E3DAC9" }}} open={open} onClose={() => setOpen(false)}>
+      <DialogTitle>{selectedCrystal ? "Edit Crystal" : "Add Crystal"}</DialogTitle>
       <DialogContent >
         <DialogContentText>
           Please Add your new stock details below
@@ -56,7 +88,7 @@ const CrstDialog = ({ open, setOpen }) => {
           value={name}
           onChange={(n) => setName(n.target.value)}
         />
-        <TextField
+        <Select
           required
           fullWidth
           id="Description"
@@ -65,8 +97,12 @@ const CrstDialog = ({ open, setOpen }) => {
           size="small"
           margin="normal"
           value={description}
-          onChange={(d) => setDescription(d.target.value)}
-        />
+          onChange={handleChange}
+        >
+          <MenuItem value={'Divination'}>Divination</MenuItem>
+          <MenuItem value={'Healing'}>Healing</MenuItem>
+          <MenuItem value={'Manifestation'}>Manifestation</MenuItem>
+        </Select>
         <TextField
         required
         fullWidth
@@ -91,7 +127,9 @@ const CrstDialog = ({ open, setOpen }) => {
         />
       </DialogContent>
       <DialogActions>
-        <Button variant="contained" onClick={newCrst}>Add</Button>
+        <Button variant="contained" onClick={selectedCrystal ? handleSave : newCrst}>
+          {selectedCrystal ? "Update" : "Add"}
+        </Button>
         <Button variant="contained" onClick={() => setOpen(false)}>Close</Button>
       </DialogActions>
     </Dialog>

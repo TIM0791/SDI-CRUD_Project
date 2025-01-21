@@ -11,7 +11,7 @@ exports.seed = async function(knex) {
 
   await knex('Admin').del()
   await knex('Admin').insert([
-    {id: 1, First_Name: 'Aaron', Last_Name: 'Admin', Username: 'Admin@admin.com', Password: adminHash},
-    {id: 2, First_Name: 'Christinith', Last_Name: 'Manager', Username: 'manage@admin.com', Password: otherHash}
+    {id: 20, First_Name: 'Aaron', Last_Name: 'Admin', Username: 'Admin@admin.com', Password: adminHash},
+    {id: 21, First_Name: 'Christinith', Last_Name: 'Manager', Username: 'manage@admin.com', Password: otherHash}
   ]);
 };

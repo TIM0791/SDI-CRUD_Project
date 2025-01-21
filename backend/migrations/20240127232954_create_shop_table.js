@@ -10,16 +10,16 @@ exports.up = function(knex) {
       table.string('Last_Name', 26);
       table.string('Username');
       table.string('Password');
-  })
-  .createTable('Item', table => {
-    table.increments('id');
-    table.bigint('AdminID').unsigned();
-    table.foreign('AdminID').references('Admin.id').onDelete('CASCADE');
-    table.string('Name');
-    table.string('Description');
-    table.mediumint('Quantity');
-    table.string('Image');
-  });
+    })
+    .createTable('Item', table => {
+      table.increments('id');
+      table.bigint('AdminID').unsigned();
+      table.foreign('AdminID').references('Admin.id').onDelete('CASCADE');
+      table.string('Name');
+      table.string('Description');
+      table.mediumint('Quantity');
+      table.string('Image');
+    });
 }
 
 /**

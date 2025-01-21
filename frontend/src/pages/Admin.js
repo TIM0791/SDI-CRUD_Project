@@ -1,16 +1,45 @@
-import { Grid, Paper, IconButton } from '@mui/material';
-import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
-import EditIcon from '@mui/icons-material/Edit';
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import { Tabs, Tab, Box } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import cookie from 'cookie';
-import CrstDialog from "./components/CrstDialog.js";
+import Inventory from './components/Inventory';
+import PrsnlMngmt from './components/PrsnlMngmt';
+import PropTypes from 'prop-types';
+
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
 
 const Admin = () => {
-  const [crystals, setCrystals] = useState([]);
   const [hasAccess, setHasAccess] = useState(false);
   const cookies = cookie.parse(document.cookie);
-  const [open, setOpen]=useState(false);
+  const [value, setValue] = React.useState(0);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,55 +50,32 @@ const Admin = () => {
         }
 
         setHasAccess(true)
-        const response = await fetch('http://localhost:8080/crystal');
-        if (!response.ok) {
-          throw new Error('Failed to fetch crystals');
-        }
-
-        const data = await response.json();
-        console.log('Fetched data:', data);
-        setCrystals(data);
       } catch (error) {
         console.error('Error fetching crystals:', error.message);
       }
     };
-
     fetchData();
   }, [cookies.Admin]);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   return (
     <>
       {hasAccess ? (
-        <Grid container spacing={2}>
-          <Grid item xs={4}>
-            <Paper sx={{ backgroundColor: '#BCD5CF' }}>
-              <div><strong>Add Item</strong></div>
-              <div>
-                <IconButton aria-label="fingerprint" color="primary" onClick={() => setOpen(true)}>
-                  <AddBoxOutlinedIcon />
-                </IconButton>
-                <CrstDialog open={open} setOpen={setOpen} />
-              </div>
-            </Paper>
-          </Grid>
-          {crystals.map((crystal) => (
-              <Grid item xs={4} key={crystal.id}>
-                <Paper sx={{ backgroundColor: '#BCD5CF' }}>
-                  <div>
-                    <strong>Name:</strong> {crystal.Name}
-                  </div>
-                  <div>
-                    <img src={crystal.Image} alt={crystal.Name} />
-                  </div>
-                  <div>
-                    <strong>Quantity:</strong> {crystal.Quantity}
-                  </div>
-                  <EditIcon />
-                  <RemoveCircleIcon />
-                </Paper>
-              </Grid>
-          ))}
-        </Grid>
+        <Box sx={{bgcolor:'#BCD5CF'}}>
+          <Tabs value={value} onChange={handleChange} centered>
+            <Tab label='Inventory' {...a11yProps(0)}/>
+            <Tab label='Personnel Management' {...a11yProps(1)}/>
+          </Tabs>
+          <TabPanel value={value} index={0}>
+            <Inventory/>
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <PrsnlMngmt/>
+          </TabPanel>
+        </Box>
       ) : (
         <div style={{color:'white'}}>You do not have access. Please return home and login.</div>
       )}
